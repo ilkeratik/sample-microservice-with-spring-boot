@@ -35,7 +35,7 @@ public class ApiExceptionHandler {
 
     ApiErrorResponse error = new ApiErrorResponse(
         LocalDateTime.now(),
-        HttpStatus.NOT_FOUND.value(),
+        HttpStatus.BAD_REQUEST.value(),
         "City Already Exists",
         ex.getMessage(),
         request.getDescription(false).replace("uri=", "")
@@ -50,12 +50,12 @@ public class ApiExceptionHandler {
 
     ApiErrorResponse error = new ApiErrorResponse(
         LocalDateTime.now(),
-        HttpStatus.NOT_FOUND.value(),
+        HttpStatus.BAD_REQUEST.value(),
         "City Add Exception",
         ex.getMessage(),
         request.getDescription(false).replace("uri=", "")
     );
-    return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(CityUpdateException.class)
@@ -64,7 +64,7 @@ public class ApiExceptionHandler {
 
     ApiErrorResponse error = new ApiErrorResponse(
         LocalDateTime.now(),
-        HttpStatus.NOT_FOUND.value(),
+        HttpStatus.BAD_REQUEST.value(),
         "City Update Exception",
         ex.getMessage(),
         request.getDescription(false).replace("uri=", "")
@@ -78,7 +78,7 @@ public class ApiExceptionHandler {
 
     ApiErrorResponse error = new ApiErrorResponse(
         LocalDateTime.now(),
-        HttpStatus.NOT_FOUND.value(),
+        HttpStatus.INTERNAL_SERVER_ERROR.value(),
         "City Update Exception",
         ex.getMessage(),
         request.getDescription(false).replace("uri=", "")

@@ -8,6 +8,7 @@ import com.iky.travel.exception.city.CityAlreadyExistsException;
 import com.iky.travel.exception.city.CityNotFoundException;
 import com.iky.travel.exception.city.CityUpdateException;
 import com.iky.travel.service.city.CityService;
+import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.Optional;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +41,7 @@ public class CityController {
   }
 
   @PostMapping
-  public ResponseEntity<Object> addCity(@RequestBody CityDTO cityDTO) {
+  public ResponseEntity<Object> addCity(@Valid @RequestBody CityDTO cityDTO) {
     if (cityService.cityExists(cityDTO.getName())) {
       throw new CityAlreadyExistsException("City already exists: " + cityDTO.getName());
     }
@@ -57,7 +58,7 @@ public class CityController {
   }
 
   @PutMapping
-  public ResponseEntity<Object> updateCity(@RequestBody CityDTO cityDTO) {
+  public ResponseEntity<Object> updateCity(@Valid @RequestBody CityDTO cityDTO) {
     if (!cityService.cityExists(cityDTO.getName())) {
       throw new CityNotFoundException("City to update is not found: " + cityDTO.getName());
     }
