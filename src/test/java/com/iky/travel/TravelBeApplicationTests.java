@@ -9,7 +9,11 @@ import org.springframework.context.ApplicationContext;
 @SpringBootTest
 class TravelBeApplicationTests {
 
-  ApplicationContext context;
+  private final ApplicationContext context;
+
+  TravelBeApplicationTests(ApplicationContext context) {
+    this.context = context;
+  }
 
   @Test
   void contextLoads() {
