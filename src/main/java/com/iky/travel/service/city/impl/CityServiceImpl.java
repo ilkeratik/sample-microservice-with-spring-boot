@@ -3,6 +3,8 @@ package com.iky.travel.service.city.impl;
 import static com.iky.travel.constant.common.RedisConstant.CITY_KEY;
 
 import com.iky.travel.domain.dto.CityDTO;
+import com.iky.travel.exception.city.CityAlreadyExistsException;
+import com.iky.travel.exception.city.CityNotFoundException;
 import com.iky.travel.service.city.CityService;
 import java.util.Objects;
 import java.util.Optional;
@@ -23,12 +25,18 @@ public class CityServiceImpl implements CityService {
 
   @Override
   public boolean addCity(CityDTO city) {
+    if (cityExists(city.getName())) {
+      throw new CityAlreadyExistsException("City already exists: " + city.getName());
+    }
     Long added = setOperations.add(CITY_KEY, city);
     return added != null && added > 0;
   }
 
   @Override
   public boolean updateCity(CityDTO updatedCity) {
+    if (!cityExists(updatedCity.getName())) {
+      throw new CityNotFoundException("City to update is not found: " + updatedCity.getName());
+    }
     Optional<CityDTO> cityOptional = Objects.requireNonNull(setOperations.members(CITY_KEY))
         .stream()
         .map(e -> (CityDTO) e)

@@ -4,7 +4,6 @@ import static com.iky.travel.constant.common.ApiPathConstants.API_V1_CITY;
 
 import com.iky.travel.domain.dto.CityDTO;
 import com.iky.travel.exception.city.CityAddException;
-import com.iky.travel.exception.city.CityAlreadyExistsException;
 import com.iky.travel.exception.city.CityNotFoundException;
 import com.iky.travel.exception.city.CityUpdateException;
 import com.iky.travel.service.city.CityService;
@@ -42,9 +41,6 @@ public class CityController {
 
   @PostMapping
   public ResponseEntity<Object> addCity(@Valid @RequestBody CityDTO cityDTO) {
-    if (cityService.cityExists(cityDTO.getName())) {
-      throw new CityAlreadyExistsException("City already exists: " + cityDTO.getName());
-    }
     boolean added = cityService.addCity(cityDTO);
     if (added) {
       URI location = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -59,9 +55,6 @@ public class CityController {
 
   @PutMapping
   public ResponseEntity<Object> updateCity(@Valid @RequestBody CityDTO cityDTO) {
-    if (!cityService.cityExists(cityDTO.getName())) {
-      throw new CityNotFoundException("City to update is not found: " + cityDTO.getName());
-    }
     boolean added = cityService.updateCity(cityDTO);
     if (added) {
       URI location = ServletUriComponentsBuilder.fromCurrentRequest()
