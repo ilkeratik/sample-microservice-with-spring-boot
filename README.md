@@ -4,6 +4,7 @@
     - Add
     - Get
     - Update
+    - Delete
 - Travel
     - Popular Destinations
     - All Destinations
