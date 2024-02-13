@@ -2,6 +2,7 @@ package com.iky.travel.exception;
 
 import com.iky.travel.exception.city.CityAddException;
 import com.iky.travel.exception.city.CityAlreadyExistsException;
+import com.iky.travel.exception.city.CityDeleteException;
 import com.iky.travel.exception.city.CityNotFoundException;
 import com.iky.travel.exception.city.CityUpdateException;
 import com.iky.travel.exception.common.RedisException;
@@ -72,17 +73,32 @@ public class ApiExceptionHandler {
     return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
   }
 
+  @ExceptionHandler(CityDeleteException.class)
+  public ResponseEntity<ApiErrorResponse> cityDeleteExceptionHandler(CityDeleteException ex,
+      WebRequest request) {
+
+    ApiErrorResponse error = new ApiErrorResponse(
+        LocalDateTime.now(),
+        HttpStatus.BAD_REQUEST.value(),
+        "City Delete Exception",
+        ex.getMessage(),
+        request.getDescription(false).replace("uri=", "")
+    );
+    return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+  }
+
+
   @ExceptionHandler(RedisException.class)
   public ResponseEntity<ApiErrorResponse> cityUpdateExceptionHandler(RedisException ex,
       WebRequest request) {
 
     ApiErrorResponse error = new ApiErrorResponse(
         LocalDateTime.now(),
-        HttpStatus.INTERNAL_SERVER_ERROR.value(),
-        "City Update Exception",
+        HttpStatus.BAD_REQUEST.value(),
+        "Redis Exception",
         ex.getMessage(),
         request.getDescription(false).replace("uri=", "")
     );
-    return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
   }
 }

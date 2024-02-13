@@ -1,19 +1,10 @@
 package com.iky.travel.exception;
 
+import java.time.LocalDateTime;
 import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ProblemDetail;
-import org.springframework.web.ErrorResponse;
 
-public class BaseErrorResponse implements ErrorResponse {
 
-  @Override
-  public HttpStatusCode getStatusCode() {
-    return HttpStatusCode.valueOf(500);
-  }
+public record BaseErrorResponse(LocalDateTime timestamp, String errorMessage, int httpStatusCode,
+                                HttpStatusCode httpStatusMessage, String requestPath) {
 
-  @Override
-  public ProblemDetail getBody() {
-    return ProblemDetail.forStatusAndDetail(getStatusCode(),
-        "An exception occurred while processing your request");
-  }
 }

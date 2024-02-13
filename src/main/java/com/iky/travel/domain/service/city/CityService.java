@@ -1,4 +1,4 @@
-package com.iky.travel.service.city;
+package com.iky.travel.domain.service.city;
 
 import com.iky.travel.domain.dto.CityDTO;
 import java.util.Optional;
@@ -12,4 +12,6 @@ public interface CityService {
   boolean cityExists(String cityName);
 
   Optional<CityDTO> getCity(String cityName);
+
+  boolean deleteCity(String cityName);
 }

@@ -6,3 +6,15 @@ spring:
     redis:
       host: localhost
       port: 6379
+    mongodb:
+      uri: mongodb://username:password@localhost:27017/travel
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  health:
+    mongo:
+      enabled: true
+    redis:
+      enabled: true

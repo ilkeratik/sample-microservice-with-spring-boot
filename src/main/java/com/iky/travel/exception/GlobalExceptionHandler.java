@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -25,24 +24,25 @@ public class GlobalExceptionHandler {
       errors.put(fieldName, errorMessage);
     });
 
-    ValidationErrorResponse response = new ValidationErrorResponse
-        (
-            LocalDateTime.now(),
-            HttpStatus.NOT_FOUND.value(),
-            "There are validation errors.",
-            errors
-        );
+    ValidationErrorResponse response = new ValidationErrorResponse(
+        LocalDateTime.now(),
+        HttpStatus.NOT_FOUND.value(),
+        "There are validation errors.",
+        errors);
     return ResponseEntity.badRequest().body(response);
   }
 
   @ExceptionHandler(value = {Exception.class})
   public ResponseEntity<Object> handleAllOtherExceptions(Exception ex, WebRequest request) {
-    //encapsulating the error details
-    ErrorResponse errorResponse = new BaseErrorResponse();
-
-    log.error("Unhandled exception caught: ", ex);
-
-    return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    log.error("Unhandled exception caught: {} , exceptionClass: {}", ex.getLocalizedMessage(),
+        ex.getClass().toGenericString());
+    BaseErrorResponse response = new BaseErrorResponse(
+        LocalDateTime.now(),
+        ex.getLocalizedMessage(),
+        HttpStatus.BAD_REQUEST.value(),
+        HttpStatus.BAD_REQUEST,
+        request.getDescription(false).replace("uri=", ""));
+    return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
   }
 
 }

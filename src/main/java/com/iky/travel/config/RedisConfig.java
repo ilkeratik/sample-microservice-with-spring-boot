@@ -14,14 +14,8 @@ public class RedisConfig {
   public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
     RedisTemplate<String, Object> template = new RedisTemplate<>();
     template.setConnectionFactory(connectionFactory);
-
-    // Use GenericJackson2JsonRedisSerializer for values to preserve type information
-    GenericJackson2JsonRedisSerializer valueSerializer = new GenericJackson2JsonRedisSerializer();
-
     template.setKeySerializer(new StringRedisSerializer());
-    template.setValueSerializer(valueSerializer);
-
+    template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
     return template;
   }
 }
-

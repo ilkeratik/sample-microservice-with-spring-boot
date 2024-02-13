@@ -11,6 +11,7 @@
 ### Used packages
 
 - Spring Boot
+- MongoDB
 - Redis
 - MapStruct
 - Lombok

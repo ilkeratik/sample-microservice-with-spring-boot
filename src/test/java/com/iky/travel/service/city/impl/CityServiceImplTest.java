@@ -1,42 +1,44 @@
 package com.iky.travel.service.city.impl;
 
-import static com.iky.travel.constant.common.RedisConstant.CITY_KEY;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.iky.travel.domain.dto.CityDTO;
+import com.iky.travel.domain.mapper.CityMapper;
+import com.iky.travel.domain.model.City;
+import com.iky.travel.domain.repository.city.CityRepository;
+import com.iky.travel.domain.service.city.impl.CityServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.SetOperations;
 
 class CityServiceImplTest {
 
   RedisTemplate<String, Object> redisTemplate;
-  SetOperations<String, Object> setOperations;
+  HashOperations hashOperations;
+  CityRepository cityRepository;
   CityServiceImpl cityService;
 
   @BeforeEach
   void setUp() {
     redisTemplate = mock(RedisTemplate.class);
-    setOperations = mock(SetOperations.class);
-
-    when(redisTemplate.opsForSet()).thenReturn(setOperations);
-    cityService = new CityServiceImpl(redisTemplate);
+    hashOperations = mock(HashOperations.class);
+    cityRepository = mock(CityRepository.class);
+    when(redisTemplate.opsForHash()).thenReturn(hashOperations);
+    cityService = new CityServiceImpl(cityRepository, redisTemplate);
   }
 
   @Test
   void addCity() {
-    CityDTO newCity = new CityDTO();
-    newCity.setName("Amsterdam");
-    given(setOperations.add(CITY_KEY, newCity)).willReturn(1L);
+    CityDTO newCityDTO = new CityDTO();
+    newCityDTO.setName("Amsterdam");
+    City newCity = CityMapper.INSTANCE.dtoToCity(newCityDTO);
 
-    boolean result = cityService.addCity(newCity);
+    cityService.addCity(newCityDTO);
 
-    assertTrue(result);
-    then(setOperations).should().add(CITY_KEY, newCity);
+    verify(cityRepository, times(1)).save(newCity);
   }
 }

@@ -2,8 +2,8 @@ package com.iky.travel.controller.travel;
 
 import static com.iky.travel.constant.common.ApiPathConstants.API_V1_TRAVEL;
 
+import com.iky.travel.domain.service.travel.TravelService;
 import com.iky.travel.exception.common.RedisException;
-import com.iky.travel.service.travel.TravelService;
 import java.util.Set;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +22,7 @@ public class TravelController {
 
   @GetMapping("popularDestinations")
   public ResponseEntity<Set<Object>> getPopularDestinations() {
-    return ResponseEntity.ok(travelService.getMostQueriedCities(5));
+    return ResponseEntity.ok(travelService.getMostQueriedCities(3));
   }
 
   @GetMapping("clearPopularDestinations")

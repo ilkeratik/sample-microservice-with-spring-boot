@@ -22,7 +22,7 @@ public class WebSecurityConfiguration {
         // Disable session creation
         .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/api/**").permitAll()
+            .requestMatchers("/api/**", "/actuator/**").permitAll()
             .anyRequest().authenticated()
         )
         .httpBasic(withDefaults());

@@ -1,4 +1,4 @@
-package com.iky.travel.service.travel;
+package com.iky.travel.domain.service.travel;
 
 import java.util.Set;
 
