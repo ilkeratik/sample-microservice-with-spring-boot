@@ -17,4 +17,4 @@
 - MapStruct
 - Lombok
 
-Don't forget to run Redis and MongoDB as container or using something else! You can check resources/application.yaml for connection details.
+Remember to run Redis and MongoDB as containers or use their executables! You can check resources/application.yaml for connection details.
