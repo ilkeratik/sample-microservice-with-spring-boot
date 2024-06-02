@@ -1,7 +1,11 @@
 spring:
+  application:
+    name: micro-travel
   cloud:
-    config:
-      enabled: false
+    kubernetes:
+      config:
+        sources:
+          - name: microservice-travel-config
   data:
     redis:
       host: localhost
@@ -18,3 +22,5 @@ management:
       enabled: true
     redis:
       enabled: true
+
+greeting: hello-base

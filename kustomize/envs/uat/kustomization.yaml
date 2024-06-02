@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - deployment.yaml
+  - service.yaml
+configMapGenerator:
+  - name: my-spring-app-config
+    files:
+      - /app-config/application.yaml
+images:
+  - name: my-spring-app
+    newName: my-spring-app
+    newTag: latest
