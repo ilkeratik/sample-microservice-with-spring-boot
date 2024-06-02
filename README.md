@@ -11,6 +11,7 @@
 ### Used packages
 
 - Spring Boot
+- Spring Cloud & Kubernetes
 - MongoDB
 - Redis
 - MapStruct
